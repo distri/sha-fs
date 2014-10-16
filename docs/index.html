@@ -32,10 +32,10 @@
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>Contet addressed filesystem.</p>
-
+              
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">module.exports =</code></pre>
+            <div class="content"><pre><code class="lang-coffeescript">Q = require <span class="string">"./lib/q"</span>
+SHA1 = require <span class="string">"sha1"</span></code></pre>
 </div>
         </li>
         
@@ -44,6 +44,54 @@
             <div class="annotation">
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Contet addressed filesystem.</p>
+<h2 id="memory-store">Memory Store</h2>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript"><span class="function"><span class="title">MemoryStore</span></span> = -&gt;
+  storage = {}
+
+  store: (data) -&gt;
+    deferred = Q.defer()
+
+    SHA1 data, (sha) -&gt;
+      storage[sha] ?= data
+
+      deferred.resolve(sha)
+
+    deferred.promise
+
+  retrieve: (sha) -&gt;
+    <span class="keyword">if</span> (data = storage[sha])?
+      Q(data)
+    <span class="keyword">else</span>
+      Q.reject(<span class="string">"<span class="subst">#{sha}</span> not found"</span>)
+
+module.exports = MemoryStore
+
+Interface =</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
               <p>Store the given data returning a promise that is fulfilled by the content 
 address when the data has been persisted to the backing store.</p>
@@ -54,10 +102,10 @@ address when the data has been persisted to the backing store.</p>
         </li>
         
         
-        <li id="section-4">
+        <li id="section-6">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-4">&#182;</a>
+                <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
               <p>Return a promise that will be fulfilled with the data if it exits or rejected if
 not found.</p>
@@ -68,10 +116,10 @@ not found.</p>
         </li>
         
         
-        <li id="section-5">
+        <li id="section-7">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-5">&#182;</a>
+                <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
               <p>We want to be able to support multiple kinds of content addressed filesystem:</p>
 <ul>
