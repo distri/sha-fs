@@ -62,9 +62,7 @@ SHA1 = require <span class="string">"sha1"</span></code></pre>
               </div>
               
             </div>
-            <div class="content"><pre><code class="lang-coffeescript"><span class="function"><span class="title">MemoryStore</span></span> = -&gt;
-  storage = {}
-
+            <div class="content"><pre><code class="lang-coffeescript"><span class="function"><span class="title">ObjectStore</span></span> = (storage) -&gt;
   store: (data) -&gt;
     deferred = Q.defer()
 
@@ -81,7 +79,15 @@ SHA1 = require <span class="string">"sha1"</span></code></pre>
     <span class="keyword">else</span>
       Q.reject(<span class="string">"<span class="subst">#{sha}</span> not found"</span>)
 
-module.exports = MemoryStore
+<span class="function"><span class="title">MemoryStore</span></span> = -&gt;
+  ObjectStore({})
+
+<span class="function"><span class="title">LocalStorageBackedStore</span></span> = -&gt;
+  ObjectStore(localStorage)
+
+<span class="function"><span class="title">S3BackedStore</span></span> = -&gt;
+
+module.exports = LocalStorageBackedStore
 
 Interface =</code></pre>
 </div>
