@@ -9,9 +9,7 @@ Contet addressed filesystem.
 Memory Store
 ------------
 
-    MemoryStore = ->
-      storage = {}
-
+    ObjectStore = (storage) ->
       store: (data) ->
         deferred = Q.defer()
 
@@ -28,7 +26,15 @@ Memory Store
         else
           Q.reject("#{sha} not found")
 
-    module.exports = MemoryStore
+    MemoryStore = ->
+      ObjectStore({})
+
+    LocalStorageBackedStore = ->
+      ObjectStore(localStorage)
+
+    S3BackedStore = ->
+
+    module.exports = LocalStorageBackedStore
 
     Interface =
 
