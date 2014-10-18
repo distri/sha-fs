@@ -1,2 +1,3 @@
 dependencies:
   sha1: "distri/sha1:v0.2.0"
+  q: "distri/q:v1.0.1"

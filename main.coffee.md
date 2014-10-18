@@ -1,10 +1,10 @@
 SHA FS
 ======
 
-    Q = require "./lib/q"
+    Q = require "q"
     SHA1 = require "sha1"
 
-Contet addressed filesystem.
+Content addressed filesystem.
 
 Memory Store
 ------------
