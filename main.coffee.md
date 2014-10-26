@@ -32,7 +32,26 @@ Memory Store
     LocalStorageBackedStore = ->
       ObjectStore(localStorage)
 
-    S3BackedStore = ->
+    S3BackedStore = (policy) ->
+      uploader = S3Uploader(policy)
+
+      store: (data) ->
+        deferred = Q.defer()
+
+        SHA1 data, (sha) ->
+          uploader.upload(
+            key: sha
+            blob: data
+            cacheControl: 31536000
+          ).then ->
+            deferred.resolve(sha)
+          , deferred.reject
+          , deferred.notify
+
+        return deferred.promise
+
+      retrieve: (sha) ->
+        uploader.get(sha)
 
     module.exports = LocalStorageBackedStore
 
