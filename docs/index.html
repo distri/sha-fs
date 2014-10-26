@@ -85,7 +85,26 @@ SHA1 = require <span class="string">"sha1"</span></code></pre>
 <span class="function"><span class="title">LocalStorageBackedStore</span></span> = -&gt;
   ObjectStore(localStorage)
 
-<span class="function"><span class="title">S3BackedStore</span></span> = -&gt;
+<span class="function"><span class="title">S3BackedStore</span></span> = (policy) -&gt;
+  uploader = S3Uploader(policy)
+
+  store: (data) -&gt;
+    deferred = Q.defer()
+
+    SHA1 data, (sha) -&gt;
+      uploader.upload(
+        key: sha
+        blob: data
+        cacheControl: <span class="number">31536000</span>
+      ).<span class="keyword">then</span> -&gt;
+        deferred.resolve(sha)
+      , deferred.reject
+      , deferred.notify
+
+    <span class="keyword">return</span> deferred.promise
+
+  retrieve: (sha) -&gt;
+    uploader.get(sha)
 
 module.exports = LocalStorageBackedStore
 
